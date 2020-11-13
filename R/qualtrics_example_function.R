@@ -23,6 +23,20 @@ add_newline <- function(x, btw, end, be) {
   
 }
 
+#' Title Make a Matrix Question in qualtrics.
+#'
+#' @param questions Required. The questions parameter is the stem, or the questions, that you would like to present in the matrix. This should be a vector, list, or column in a dataset that contains character strings.
+#' @param answer_scale Required. The answer_scale parameter is the options that you want to give your participants for each of the questions presented in the matrix. This should be a vector or a list of length one that contains all the answer choices you would like.
+#' @param instructions Optional. The instructions parameter is the instructions for the participant that you would like displayed at the top of the matrix. The default is "Please answer each statement using the presented scale".
+#'
+#' @return This function will return a vector that is in the required format to import the question as a matrix into qualtrics.
+#' @export
+#'
+#' @examples
+#' x <- c("I feel calm", "I feel happy", "I feel tired", "I feel sad")
+#' y <- c("Strongly Disagree", "Disagree", "Neutral", "Agree","Strongly Agree")
+#' z <- "Please read each question and answer each statement honestly using the following scale."
+#' make_qualtrics_matrix(x, y, z)
 make_qualtrics_matrix <- function(questions, answer_scale, instructions = "Please answer each statement using the presented scale") {
   if (is.list(answer_scale) == TRUE & length(answer_scale) != 1) {
     stop("Answer Choices in a list should have length of 1.")
@@ -34,7 +48,7 @@ make_qualtrics_matrix <- function(questions, answer_scale, instructions = "Pleas
   instructions <- paste0("[[Questions:Matrix]]", "\n", instructions, "\n")
   questions <- paste0(questions, collapse = "\n")
   questions <- paste0("[[Choices]]", "\n", questions, "\n")
-  options <- paste0("[[Answer]]", "\n", answer_scale, "\n")
+  options <- paste0("[[Answer]]", "\n", answer_scale)
   options <- paste0(options, collapse = "\n")
   options <- paste0("[[AdvancedAnswers]]", "\n", options, "\n")
   question <- paste0(instructions, questions, options, collapse = "\n")
