@@ -23,7 +23,7 @@ add_newline <- function(x, btw, end, be) {
   
 }
 
-#' Title Make a Matrix Question in qualtrics.
+#' Title Make a Matrix Question in Qualtrics.
 #'
 #' @param questions Required. The questions parameter is the stem, or the questions, that you would like to present in the matrix. This should be a vector, list, or column in a dataset that contains character strings.
 #' @param answer_scale Required. The answer_scale parameter is the options that you want to give your participants for each of the questions presented in the matrix. This should be a vector or a list of length one that contains all the answer choices you would like.
@@ -59,9 +59,23 @@ make_qualtrics_textbox <- function(question) {
   
 }
 
-make_qualtrics_dropdown <- function(question, answers) {
-  
-} 
+#' Title Make a Dropdown Question in Qualtrics.
+#'
+#' @param questions Required. The questions parameter is the stem, or the questions, that you would like to present in the matrix. This should be a vector, list, or column in a dataset that contains character strings.
+#' @param answer_scale Required. The answer_scale parameter is the options that you want to give your participants for each of the questions presented in the dropdown. This should be a vector or a list of length equal to the number of questions that contains all the answer choices you would like.
+#'
+#' @return This function will return a vector that is in the required format to import the question as a dropdown into qualtrics.
+#' @export
+#'
+#' @examples
+make_qualtrics_dropdown <- function(questions, answer_scale) {
+  questions <- paste0("[[Question:MC:Dropdown]]", "\n", questions, "\n")
+  answer_scale <- paste0(answer_scale, collapse = "\n")
+  answer_scale <- paste0("[[Choices]]", "\n", answer_scale, "\n")
+  questions <- paste0(questions, answer_scale, collapse = "\n")
+  return(questions)
+}
+#note for self: right now, this function works if the answer_scale is a vector that only contains one value whereas the function needs to work for a list that equals the number of questions
 
 pagebreak <- function(question, number) {
   
