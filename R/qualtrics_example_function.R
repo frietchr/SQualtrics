@@ -1,9 +1,29 @@
-make_qualtrics_MC <- function(x, options = c("Strongly Agree", "Agree", "Disgree" ,"Strongly Disgree")) {
-  x <- paste0("[[Question:MC]]", "\n", x, "\n")
-  options <- paste0(options, collapse = "\n")
-  options <- paste0("[[Choices]]", "\n", options, "\n")
-  x <- paste0(x, options, collapse = "\n")
-  return(x)
+#' Title Make a Multiple Choice (including Likert Scale) in Qualtrics
+#'
+#' @param questions Required. The questions parameter is the stem, or the questions, that you would like to present in the multiple choice question. This should be a vector, list, or column in a dataset that contains character strings.
+#' @param answer_scale Required. The answer_scale parameter is the options that you want to give your participants for each of the questions presented in the multiple choice questions. This should be a list of length equal to the number of questions that contains the answer choices you would like. Each element of the list for answer_scale should represent the answer choices for the corresponding question.
+#'
+#' @return This function will return a vector that is in the required format to import the question as a dropdown into qualtrics.
+#' @export
+#'
+#' @examples
+#' x <- c("I feel calm", "I feel sad", "I feel mad", "I feel happy")
+#' y <- rep(list(c("Yes","No"),c("Strongly Agree","Agree","Neutral","Disagree","Strongly Disagree")),2)
+#' make_qualtrics_MC(x,y)
+make_qualtrics_MC <- function(questions, answer_scale) {
+  if (is.list(answer_scale) == FALSE) {
+    stop("Error: answer_scale must be a list")
+  }
+  if (length(answer_scale) != length(questions)) {
+    stop("Error: length of answer_scale mush equal length of questions")
+  }
+  questions <- paste0("[[Question:MC]]", "\n", questions, "\n")
+  answer_scale <- lapply(answer_scale, function(answer_scale) {
+    paste0(answer_scale, collapse = "\n")
+  })
+  answer_scale <- paste0("[[Choices]]", "\n", answer_scale, "\n")
+  questions <- paste0(questions, answer_scale, collapse = "\n")
+  return(questions)
 }
 
 make_qualtrics_MC_sprint <- function(x, options = c("Strongly Agree", "Agree", "Disgree" ,"Strongly Disgree")) {
@@ -62,15 +82,26 @@ make_qualtrics_textbox <- function(question) {
 #' Title Make a Dropdown Question in Qualtrics.
 #'
 #' @param questions Required. The questions parameter is the stem, or the questions, that you would like to present in the matrix. This should be a vector, list, or column in a dataset that contains character strings.
-#' @param answer_scale Required. The answer_scale parameter is the options that you want to give your participants for each of the questions presented in the dropdown. This should be a vector or a list of length equal to the number of questions that contains all the answer choices you would like.
+#' @param answer_scale Required. The answer_scale parameter is the options that you want to give your participants for each of the questions presented in the dropdown. This should be a list of length equal to the number of questions that contains the answer choices you would like. Each element of the list for answer_scale should represent the answer choices for the corresponding question.
 #'
 #' @return This function will return a vector that is in the required format to import the question as a dropdown into qualtrics.
 #' @export
 #'
 #' @examples
+#' x <- list("I like school", "Doing well in school is not important", "I don't need to do well in school to succeed in life")
+#' y <- list(c("Describes me very well","Does not Describe me at all"), c("Agree","Disagree"),c("Very True","Somewhat True","Neither True nor False", "Somewhat False", "Very False"))
+#' make_qualtrics_dropdown(x,y)
 make_qualtrics_dropdown <- function(questions, answer_scale) {
+  if (is.list(answer_scale) == FALSE) {
+    stop("Error: answer_scale must be a list")
+  }
+  if (length(answer_scale) != length(questions)) {
+    stop("Error: length of answer_scale mush equal length of questions")
+  }
   questions <- paste0("[[Question:MC:Dropdown]]", "\n", questions, "\n")
-  answer_scale <- paste0(answer_scale, collapse = "\n")
+  answer_scale <- lapply(answer_scale, function(answer_scale) {
+    paste0(answer_scale, collapse = "\n")
+  })
   answer_scale <- paste0("[[Choices]]", "\n", answer_scale, "\n")
   questions <- paste0(questions, answer_scale, collapse = "\n")
   return(questions)
