@@ -106,7 +106,6 @@ make_qualtrics_dropdown <- function(questions, answer_scale) {
   questions <- paste0(questions, answer_scale, collapse = "\n")
   return(questions)
 }
-#note for self: right now, this function works if the answer_scale is a vector that only contains one value whereas the function needs to work for a list that equals the number of questions
 
 pagebreak <- function(question, number) {
   
