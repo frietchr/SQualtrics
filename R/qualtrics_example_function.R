@@ -10,7 +10,7 @@
 #' x <- c("I feel calm", "I feel sad", "I feel mad", "I feel happy")
 #' y <- rep(list(c("Yes","No"),c("Strongly Agree","Agree","Neutral","Disagree","Strongly Disagree")),2)
 #' make_qualtrics_MC(x,y)
-make_qualtrics_MC <- function(questions, answer_scale) {
+make_qualtrics_MC <- function(questions, answer_scale, spacing = c(1,1)) {
   #if answer scale is not a list, let user know it needs to be a list
   if (is.list(answer_scale) == FALSE) {
     stop("Error: answer_scale must be a list")
@@ -45,8 +45,14 @@ make_qualtrics_MC_sprint <- function(x, options = c("Strongly Agree", "Agree", "
   return(x)
 }
 
-add_newline <- function(x, btw, end, be) {
-  
+add_newline <- function(x, start = 1, end = 1) {
+  if (inherits(x, 'list')) {
+    x <- lapply(x, paste0, collapse = "")
+  }
+  .start_space <- paste0(rep("\n", start), collapse = "")
+  .end_space <- paste0(rep("\n", end), collapse = "")
+  x <- paste0(.start_space, x, .end_space, collapse = "")
+  return(x)
 }
 
 #' Title Make a Matrix Question in Qualtrics.
