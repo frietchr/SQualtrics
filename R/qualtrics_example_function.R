@@ -90,9 +90,10 @@ make_qualtrics_matrix <- function(questions, answer_scale, instructions = "Pleas
   question <- paste0(instructions, questions, options, collapse = "\n")
   return(question)
 }
-
-make_qualtrics_multiselect <- function(questions, answer_scale) {
-  #some options for this function include multiselect, single answer (horizontal), or multiselect(horizontal)
+#' ROXYGEN TEST
+# COMMENT TEST
+make_qualtrics_textbox <- function(question) {
+  
 }
 
 #' Title Make a Dropdown Question in Qualtrics.
