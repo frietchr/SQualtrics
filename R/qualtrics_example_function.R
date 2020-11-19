@@ -74,7 +74,7 @@ make_qualtrics_matrix <- function(questions, answer_scale, instructions = "Pleas
   question <- paste0(instructions, questions, options, collapse = "\n")
   return(question)
 }
-
+# COMMENT TEST
 make_qualtrics_textbox <- function(question) {
   
 }
