@@ -1,3 +1,29 @@
+#' Title Check Qualtrics Multiple Choice Arguments.
+#'
+#' @param questions Required. The questions parameter is the stem, or the questions, that you would like to present in the matrix. This should be a vector, list, or column in a dataset that contains character strings.
+#' @param answer_scale Required. The answer_scale parameter is the options that you want to give your participants for each of the questions presented in the matrix. This should be a vector or a list of length one that contains all the answer choices you would like.
+#'
+#' @return The function will return any error messages relevant to making a multiple choice question that can be imported into Qualtrics.
+#' @export
+#'
+#' @examples
+#' stem <- c("I am sad", "I am mad", "I am happy")
+#' options <- c("Yes","No")
+#' check_MC_arguments(stem,options)
+#' question <- c("I am sad", "I am mad", "I am happy")
+#' options <- rep(list(c("Yes","No")),2)
+check_MC_arguments <- function(questions, answer_scale) {
+  if (is.list(answer_scale) == FALSE) {
+    stop("Error: answer_scale must be a list")
+  }
+  if (is.list(questions) == TRUE) {
+    questions <- unlist(questions)
+  }
+  if (length(answer_scale) != length(questions)) {
+    stop("Error: length of answer_scale mush equal length of questions")
+  }
+}
+
 #' Title Make a Multiple Choice (including Likert Scale) in Qualtrics
 #'
 #' @param questions Required. The questions parameter is the stem, or the questions, that you would like to present in the multiple choice question. This should be a vector, list, or column in a dataset that contains character strings.
@@ -11,12 +37,7 @@
 #' y <- rep(list(c("Yes","No"),c("Strongly Agree","Agree","Neutral","Disagree","Strongly Disagree")),2)
 #' make_qualtrics_MC(x,y)
 make_qualtrics_MC <- function(questions, answer_scale) {
-  if (is.list(answer_scale) == FALSE) {
-    stop("Error: answer_scale must be a list")
-  }
-  if (length(answer_scale) != length(questions)) {
-    stop("Error: length of answer_scale mush equal length of questions")
-  }
+  check_MC_arguments(questions, answer_scale)
   questions <- paste0("[[Question:MC]]", "\n", questions, "\n")
   answer_scale <- lapply(answer_scale, function(answer_scale) {
     paste0(answer_scale, collapse = "\n")
@@ -24,19 +45,6 @@ make_qualtrics_MC <- function(questions, answer_scale) {
   answer_scale <- paste0("[[Choices]]", "\n", answer_scale, "\n")
   questions <- paste0(questions, answer_scale, collapse = "\n")
   return(questions)
-}
-
-make_qualtrics_MC_sprint <- function(x, options = c("Strongly Agree", "Agree", "Disgree" ,"Strongly Disgree")) {
-  if (is.list(options)) {
-    options <- sapply(options, function(x) {
-      x <- paste0(x, collapse = "\n")
-    })
-  } else {
-    options <- paste0(options, collapse = "\n")
-  }
-  x <- sprintf("[[Question:MC]]\n%s\n[[Choices]]\n%s\n[[pagebreak]]\n", x, options)
-  x <- add_newline(x, 1, 2, 1)
-  return(x)
 }
 
 add_newline <- function(x, btw, end, be) {
@@ -93,12 +101,7 @@ make_qualtrics_textbox <- function(question) {
 #' y <- list(c("Describes me very well","Does not Describe me at all"), c("Agree","Disagree"),c("Very True","Somewhat True","Neither True nor False", "Somewhat False", "Very False"))
 #' make_qualtrics_dropdown(x,y)
 make_qualtrics_dropdown <- function(questions, answer_scale) {
-  if (is.list(answer_scale) == FALSE) {
-    stop("Error: answer_scale must be a list")
-  }
-  if (length(answer_scale) != length(questions)) {
-    stop("Error: length of answer_scale mush equal length of questions")
-  }
+  check_MC_arguments(questions, answer_scale)
   questions <- paste0("[[Question:MC:Dropdown]]", "\n", questions, "\n")
   answer_scale <- lapply(answer_scale, function(answer_scale) {
     paste0(answer_scale, collapse = "\n")
