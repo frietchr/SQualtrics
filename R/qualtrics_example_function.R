@@ -82,8 +82,7 @@ make_qualtrics_matrix <- function(questions, answer_scale, instructions = "Pleas
   question <- paste0(instructions, questions, options, collapse = "\n")
   return(question)
 }
-#in the matrix function, clearly note that an individual needs to run the matrices function multiple times if they have more than one answer scales they want
-#add check_qualtrics_arguments function
+
 make_qualtrics_textbox <- function(question) {
   
 }
