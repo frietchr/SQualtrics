@@ -114,3 +114,56 @@ make_qualtrics_dropdown <- function(questions, answer_scale) {
 pagebreak <- function(question, number) {
   
 }
+
+#' Title Creating Qualtrics Blocks
+#'
+#' @param blocks Required. Blocks must be a list with each element of the list being the contents for one block. Each element of blocks should be one of the make_qualtrics functions (e.g., make_qualtrics_MC, make_qualtrics_dropdown, make_qualtrics_matrix) 
+#'
+#' @return make_blocks outputs a vector that separates each element of the list blocks into a separate block for Qualtrics to import.
+#' @export
+#'
+#' @examples
+#' x <- list("I like school", "Doing well in school is not important", "I don't need to do well in school to succeed in life")
+#' y <- list(c("Describes me very well","Does not Describe me at all"), c("Agree","Disagree"),c("Very True","Somewhat True","Neither True nor False", "Somewhat False", "Very False"))
+#' a <- c("I feel calm", "I feel happy", "I feel tired", "I feel sad")
+#' b <- c("Strongly Disagree", "Disagree", "Neutral", "Agree","Strongly Agree")
+#' c <- "Please read each question and answer each statement honestly using the following scale."
+#' qualtrics <- list(make_qualtrics_dropdown(x,y), make_qualtrics_matrix(a,b,c))
+#' qualtrics <- make_blocks(qualtrics)
+make_blocks <- function(blocks) {
+  if (is.list(blocks) == FALSE) {
+    stop("Error: blocks must be a list with each element of the list being the contents for one block")
+  }
+  blocks <- lapply(blocks, function(blocks) {
+    paste0("[[Block]]", "\n", blocks)
+  })
+  blocks[1] <- paste0("[[AdvancedFormat]]", "\n", blocks, "\n")
+  blocks <- unlist(blocks)
+  return(blocks)
+}
+
+#' Title Outputting Qualtrics Survey to txt File
+#'
+#' @param blocks Required. The blocks argument is the saved variable from the make_blocks function that includes all the desired blocks for the survey
+#' @param set_dir Optional. set_dir is the file path that you want to file to save in. Default is current working directory
+#'
+#' @return output_file will save blocks to a .txt file in a set directory so that user can upload the .txt file to Qualtrics
+#' @export
+#'
+#' @examples
+#' #' x <- list("I like school", "Doing well in school is not important", "I don't need to do well in school to succeed in life")
+#' y <- list(c("Describes me very well","Does not Describe me at all"), c("Agree","Disagree"),c("Very True","Somewhat True","Neither True nor False", "Somewhat False", "Very False"))
+#' a <- c("I feel calm", "I feel happy", "I feel tired", "I feel sad")
+#' b <- c("Strongly Disagree", "Disagree", "Neutral", "Agree","Strongly Agree")
+#' c <- "Please read each question and answer each statement honestly using the following scale."
+#' qualtrics <- list(make_qualtrics_dropdown(x,y), make_qualtrics_matrix(a,b,c))
+#' qualtrics <- make_blocks(qualtrics)
+#' output_file(qualtrics)
+output_file <- function(blocks, set_dir = getwd()) {
+  setwd(set_dir)
+  sink("qualtrics_import.txt")
+  cat(blocks)
+  sink()
+  message(sprintf("Qualtrics Survey Import file was saved as qualtrics_import.txt to: %s", getwd()))
+}
+  
