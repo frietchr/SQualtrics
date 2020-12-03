@@ -38,17 +38,41 @@ check_MC_arguments <- function(questions, answer_scale) {
 #' make_qualtrics_MC(x,y)
 make_qualtrics_MC <- function(questions, answer_scale) {
   check_MC_arguments(questions, answer_scale)
+  #paste [[Question:MC]] above each question and separate with a new line
   questions <- paste0("[[Question:MC]]", "\n", questions, "\n")
+  #combine the values in each element of answer scales and separate them by a new line
   answer_scale <- lapply(answer_scale, function(answer_scale) {
     paste0(answer_scale, collapse = "\n")
   })
+  #add [[Choices]] above each element in the list of answer_scale
   answer_scale <- paste0("[[Choices]]", "\n", answer_scale, "\n")
+  #paste questions and answer scale together and separate by a new line
   questions <- paste0(questions, answer_scale, collapse = "\n")
   return(questions)
 }
 
-add_newline <- function(x, btw, end, be) {
+#' Title
+#'
+#' @param block 
+#' @param end 
+#' @param begin 
+#'
+#' @return
+#' @export
+#'
+#' @examples
+add_newline <- function(block, end = 1, begin = 1) {
+  for( i in begin){
+    beginning_space <- paste0("\n", collapse = "")
+  }
   
+  for( i in end){
+    end_space <- paste0("\n", collapse = "")
+  }
+  
+  block <- paste0(beginning_space, block, end_space, collapse = "")
+  
+  return(block)
 }
 
 #' Title Make a Matrix Question in Qualtrics.
@@ -61,30 +85,62 @@ add_newline <- function(x, btw, end, be) {
 #' @export
 #'
 #' @examples
-#' x <- c("I feel calm", "I feel happy", "I feel tired", "I feel sad")
-#' y <- c("Strongly Disagree", "Disagree", "Neutral", "Agree","Strongly Agree")
-#' z <- "Please read each question and answer each statement honestly using the following scale."
-#' make_qualtrics_matrix(x, y, z)
+#' a <- c("I feel calm", "I feel happy", "I feel tired", "I feel sad")
+#' b <- c("Strongly Disagree", "Disagree", "Neutral", "Agree","Strongly Agree")
+#' c <- "Please read each question and answer each statement honestly using the following scale."
+#' make_qualtrics_matrix(a, b, c)
 make_qualtrics_matrix <- function(questions, answer_scale, instructions = "Please answer each statement using the presented scale") {
+  #because in a matrix, the questions will all have the same answer choices, answer_scale should either be a vector or a list with length one
   if (is.list(answer_scale) == TRUE & length(answer_scale) != 1) {
     stop("Answer Choices in a list should have length of 1.")
   }
+  #if answer_scale is a list, unlist answer_scale
   if (is.list(answer_scale) == TRUE) {
     answer_scale <- unlist(answer_scale)
   }
+  #paste the instructions and separate with a new line
   instructions <- paste0(instructions, collapse = "\n")
+  #paste [[Questions:Matrix]] above instructions with new lines separating them
   instructions <- paste0("[[Questions:Matrix]]", "\n", instructions, "\n")
+  #separate the questions with a new line
   questions <- paste0(questions, collapse = "\n")
+  #paste [[Choices]] above all of the questions 
   questions <- paste0("[[Choices]]", "\n", questions, "\n")
+  #paste [[Answer]] above each of the answer options
   options <- paste0("[[Answer]]", "\n", answer_scale)
+  #seperate each answer with a new line
   options <- paste0(options, collapse = "\n")
+  #paste [[AdvancedAnswers]] in front of the first [[Answers]]
   options <- paste0("[[AdvancedAnswers]]", "\n", options, "\n")
+  #paste instructions, questions, and options together
   question <- paste0(instructions, questions, options, collapse = "\n")
   return(question)
 }
 
-make_qualtrics_textbox <- function(question) {
+#' Title Multiple Choice with multiple answers
+#'
+#' @param question Required. A query
+#' @param answers Required. List of sorts,
+#'
+#' @return returns the question with answers which may contain multiple items. 
+#' @export
+#'
+#' @examples
+make_qualtrics_MC_MultiSelect <- function(question, answers){
   
+  question <- paste0("[[Question:MC]]", "\n", question, "\n")
+  
+  if(is.list(answers)){
+    answers <- paste0("[[Choices]]", "\n", answers, "\n")
+    answers <- lapply(answers, function(answers) {
+      paste0(answers, collapse = "\n")
+    })
+  }else{
+    stop("Error:You have not provided a list of answers, silly")
+  }
+
+  question <- paste0(question, answers, collapse = "\n")
+  return(question)
 }
 
 #' Title Make a Dropdown Question in Qualtrics.
@@ -101,11 +157,15 @@ make_qualtrics_textbox <- function(question) {
 #' make_qualtrics_dropdown(x,y)
 make_qualtrics_dropdown <- function(questions, answer_scale) {
   check_MC_arguments(questions, answer_scale)
+  #paste [[Question:MC:Dropdown]] above each question and separate with a new line
   questions <- paste0("[[Question:MC:Dropdown]]", "\n", questions, "\n")
+  #combine the values in each element of answer scales and separate them by a new line
   answer_scale <- lapply(answer_scale, function(answer_scale) {
     paste0(answer_scale, collapse = "\n")
   })
+  #add [[Choices]] above each element in the list of answer_scale
   answer_scale <- paste0("[[Choices]]", "\n", answer_scale, "\n")
+  #paste questions and answer scale together and separate by a new line
   questions <- paste0(questions, answer_scale, collapse = "\n")
   return(questions)
 }
