@@ -39,8 +39,30 @@ make_qualtrics_MC_sprint <- function(x, options = c("Strongly Agree", "Agree", "
   return(x)
 }
 
-add_newline <- function(x, btw, end, be) {
+
+
+#' Title
+#'
+#' @param block 
+#' @param end 
+#' @param begin 
+#'
+#' @return
+#' @export
+#'
+#' @examples
+add_newline <- function(block, end = 1, begin = 1) {
+  for( i in begin){
+    beginning_space <- paste0("\n", collapse = "")
+  }
   
+  for( i in end){
+    end_space <- paste0("\n", collapse = "")
+  }
+  
+  block <- paste0(beginning_space, block, end_space, collapse = "")
+  
+  return(block)
 }
 
 #' Title Make a Matrix Question in Qualtrics.
@@ -74,10 +96,47 @@ make_qualtrics_matrix <- function(questions, answer_scale, instructions = "Pleas
   question <- paste0(instructions, questions, options, collapse = "\n")
   return(question)
 }
-#' ROXYGEN TEST
+
+
+# ROXYGEN TEST
 # COMMENT TEST
+#' Title
+#'
+#' @param question 
+#'
+#' @return
+#' @export
+#'
+#' @examples
 make_qualtrics_textbox <- function(question) {
-  #comment
+  
+}
+
+
+#' Title Multiple Choice with multiple answers
+#'
+#' @param question Required. A query
+#' @param answers Required. List of sorts,
+#'
+#' @return returns the question with answers which may contain multiple items. 
+#' @export
+#'
+#' @examples
+make_qualtrics_MC_MultiSelect <- function(question, answers){
+  
+  question <- paste0("[[Question:MC]]", "\n", question, "\n")
+  
+  if(is.list(answers)){
+    answers <- paste0("[[Choices]]", "\n", answers, "\n")
+    answers <- lapply(answers, function(answers) {
+      paste0(answers, collapse = "\n")
+    })
+  }else{
+    stop("Error:You have not provided a list of answers, silly")
+  }
+
+  question <- paste0(question, answers, collapse = "\n")
+  return(question)
 }
 
 #' Title Make a Dropdown Question in Qualtrics.
