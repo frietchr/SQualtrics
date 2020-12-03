@@ -1,3 +1,29 @@
+#' Title Check Qualtrics Multiple Choice Arguments.
+#'
+#' @param questions Required. The questions parameter is the stem, or the questions, that you would like to present in the matrix. This should be a vector, list, or column in a dataset that contains character strings.
+#' @param answer_scale Required. The answer_scale parameter is the options that you want to give your participants for each of the questions presented in the matrix. This should be a vector or a list of length one that contains all the answer choices you would like.
+#'
+#' @return The function will return any error messages relevant to making a multiple choice question that can be imported into Qualtrics.
+#' @export
+#'
+#' @examples
+#' stem <- c("I am sad", "I am mad", "I am happy")
+#' options <- c("Yes","No")
+#' check_MC_arguments(stem,options)
+#' question <- c("I am sad", "I am mad", "I am happy")
+#' options <- rep(list(c("Yes","No")),2)
+check_MC_arguments <- function(questions, answer_scale) {
+  if (is.list(answer_scale) == FALSE) {
+    stop("Error: answer_scale must be a list")
+  }
+  if (is.list(questions) == TRUE) {
+    questions <- unlist(questions)
+  }
+  if (length(answer_scale) != length(questions)) {
+    stop("Error: length of answer_scale mush equal length of questions")
+  }
+}
+
 #' Title Make a Multiple Choice (including Likert Scale) in Qualtrics
 #'
 #' @param questions Required. The questions parameter is the stem, or the questions, that you would like to present in the multiple choice question. This should be a vector, list, or column in a dataset that contains character strings.
@@ -11,14 +37,7 @@
 #' y <- rep(list(c("Yes","No"),c("Strongly Agree","Agree","Neutral","Disagree","Strongly Disagree")),2)
 #' make_qualtrics_MC(x,y)
 make_qualtrics_MC <- function(questions, answer_scale) {
-  #if answer scale is not a list, let user know it needs to be a list
-  if (is.list(answer_scale) == FALSE) {
-    stop("Error: answer_scale must be a list")
-  }
-  #if the length of the list for answer scale does not equal to length of questions, let user know these values have to be equal
-  if (length(answer_scale) != length(questions)) {
-    stop("Error: length of answer_scale mush equal length of questions")
-  }
+  check_MC_arguments(questions, answer_scale)
   #paste [[Question:MC]] above each question and separate with a new line
   questions <- paste0("[[Question:MC]]", "\n", questions, "\n")
   #combine the values in each element of answer scales and separate them by a new line
@@ -31,21 +50,6 @@ make_qualtrics_MC <- function(questions, answer_scale) {
   questions <- paste0(questions, answer_scale, collapse = "\n")
   return(questions)
 }
-
-make_qualtrics_MC_sprint <- function(x, options = c("Strongly Agree", "Agree", "Disgree" ,"Strongly Disgree")) {
-  if (is.list(options)) {
-    options <- sapply(options, function(x) {
-      x <- paste0(x, collapse = "\n")
-    })
-  } else {
-    options <- paste0(options, collapse = "\n")
-  }
-  x <- sprintf("[[Question:MC]]\n%s\n[[Choices]]\n%s\n[[pagebreak]]\n", x, options)
-  x <- add_newline(x, 1, 2, 1)
-  return(x)
-}
-
-
 
 #' Title
 #'
@@ -113,22 +117,6 @@ make_qualtrics_matrix <- function(questions, answer_scale, instructions = "Pleas
   return(question)
 }
 
-
-# ROXYGEN TEST
-# COMMENT TEST
-#' Title
-#'
-#' @param question 
-#'
-#' @return
-#' @export
-#'
-#' @examples
-make_qualtrics_textbox <- function(question) {
-  
-}
-
-
 #' Title Multiple Choice with multiple answers
 #'
 #' @param question Required. A query
@@ -168,14 +156,7 @@ make_qualtrics_MC_MultiSelect <- function(question, answers){
 #' y <- list(c("Describes me very well","Does not Describe me at all"), c("Agree","Disagree"),c("Very True","Somewhat True","Neither True nor False", "Somewhat False", "Very False"))
 #' make_qualtrics_dropdown(x,y)
 make_qualtrics_dropdown <- function(questions, answer_scale) {
-  #if answer scale is not a list, let user know it needs to be a list
-  if (is.list(answer_scale) == FALSE) {
-    stop("Error: answer_scale must be a list")
-  }
-  #if the length of the list for answer scale does not equal to length of questions, let user know these values have to be equal
-  if (length(answer_scale) != length(questions)) {
-    stop("Error: length of answer_scale mush equal length of questions")
-  }
+  check_MC_arguments(questions, answer_scale)
   #paste [[Question:MC:Dropdown]] above each question and separate with a new line
   questions <- paste0("[[Question:MC:Dropdown]]", "\n", questions, "\n")
   #combine the values in each element of answer scales and separate them by a new line
@@ -192,3 +173,56 @@ make_qualtrics_dropdown <- function(questions, answer_scale) {
 pagebreak <- function(question, number) {
   
 }
+
+#' Title Creating Qualtrics Blocks
+#'
+#' @param blocks Required. Blocks must be a list with each element of the list being the contents for one block. Each element of blocks should be one of the make_qualtrics functions (e.g., make_qualtrics_MC, make_qualtrics_dropdown, make_qualtrics_matrix) 
+#'
+#' @return make_blocks outputs a vector that separates each element of the list blocks into a separate block for Qualtrics to import.
+#' @export
+#'
+#' @examples
+#' x <- list("I like school", "Doing well in school is not important", "I don't need to do well in school to succeed in life")
+#' y <- list(c("Describes me very well","Does not Describe me at all"), c("Agree","Disagree"),c("Very True","Somewhat True","Neither True nor False", "Somewhat False", "Very False"))
+#' a <- c("I feel calm", "I feel happy", "I feel tired", "I feel sad")
+#' b <- c("Strongly Disagree", "Disagree", "Neutral", "Agree","Strongly Agree")
+#' c <- "Please read each question and answer each statement honestly using the following scale."
+#' qualtrics <- list(make_qualtrics_dropdown(x,y), make_qualtrics_matrix(a,b,c))
+#' qualtrics <- make_blocks(qualtrics)
+make_blocks <- function(blocks) {
+  if (is.list(blocks) == FALSE) {
+    stop("Error: blocks must be a list with each element of the list being the contents for one block")
+  }
+  blocks <- lapply(blocks, function(blocks) {
+    paste0("[[Block]]", "\n", blocks)
+  })
+  blocks[1] <- paste0("[[AdvancedFormat]]", "\n", blocks, "\n")
+  blocks <- unlist(blocks)
+  return(blocks)
+}
+
+#' Title Outputting Qualtrics Survey to txt File
+#'
+#' @param blocks Required. The blocks argument is the saved variable from the make_blocks function that includes all the desired blocks for the survey
+#' @param set_dir Optional. set_dir is the file path that you want to file to save in. Default is current working directory
+#'
+#' @return output_file will save blocks to a .txt file in a set directory so that user can upload the .txt file to Qualtrics
+#' @export
+#'
+#' @examples
+#' #' x <- list("I like school", "Doing well in school is not important", "I don't need to do well in school to succeed in life")
+#' y <- list(c("Describes me very well","Does not Describe me at all"), c("Agree","Disagree"),c("Very True","Somewhat True","Neither True nor False", "Somewhat False", "Very False"))
+#' a <- c("I feel calm", "I feel happy", "I feel tired", "I feel sad")
+#' b <- c("Strongly Disagree", "Disagree", "Neutral", "Agree","Strongly Agree")
+#' c <- "Please read each question and answer each statement honestly using the following scale."
+#' qualtrics <- list(make_qualtrics_dropdown(x,y), make_qualtrics_matrix(a,b,c))
+#' qualtrics <- make_blocks(qualtrics)
+#' output_file(qualtrics)
+output_file <- function(blocks, set_dir = getwd()) {
+  setwd(set_dir)
+  sink("qualtrics_import.txt")
+  cat(blocks)
+  sink()
+  message(sprintf("Qualtrics Survey Import file was saved as qualtrics_import.txt to: %s", getwd()))
+}
+  
