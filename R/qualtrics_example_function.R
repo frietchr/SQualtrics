@@ -11,17 +11,23 @@
 #' y <- rep(list(c("Yes","No"),c("Strongly Agree","Agree","Neutral","Disagree","Strongly Disagree")),2)
 #' make_qualtrics_MC(x,y)
 make_qualtrics_MC <- function(questions, answer_scale) {
+  #if answer scale is not a list, let user know it needs to be a list
   if (is.list(answer_scale) == FALSE) {
     stop("Error: answer_scale must be a list")
   }
+  #if the length of the list for answer scale does not equal to length of questions, let user know these values have to be equal
   if (length(answer_scale) != length(questions)) {
     stop("Error: length of answer_scale mush equal length of questions")
   }
+  #paste [[Question:MC]] above each question and separate with a new line
   questions <- paste0("[[Question:MC]]", "\n", questions, "\n")
+  #combine the values in each element of answer scales and separate them by a new line
   answer_scale <- lapply(answer_scale, function(answer_scale) {
     paste0(answer_scale, collapse = "\n")
   })
+  #add [[Choices]] above each element in the list of answer_scale
   answer_scale <- paste0("[[Choices]]", "\n", answer_scale, "\n")
+  #paste questions and answer scale together and separate by a new line
   questions <- paste0(questions, answer_scale, collapse = "\n")
   return(questions)
 }
@@ -75,24 +81,34 @@ add_newline <- function(block, end = 1, begin = 1) {
 #' @export
 #'
 #' @examples
-#' x <- c("I feel calm", "I feel happy", "I feel tired", "I feel sad")
-#' y <- c("Strongly Disagree", "Disagree", "Neutral", "Agree","Strongly Agree")
-#' z <- "Please read each question and answer each statement honestly using the following scale."
-#' make_qualtrics_matrix(x, y, z)
+#' a <- c("I feel calm", "I feel happy", "I feel tired", "I feel sad")
+#' b <- c("Strongly Disagree", "Disagree", "Neutral", "Agree","Strongly Agree")
+#' c <- "Please read each question and answer each statement honestly using the following scale."
+#' make_qualtrics_matrix(a, b, c)
 make_qualtrics_matrix <- function(questions, answer_scale, instructions = "Please answer each statement using the presented scale") {
+  #because in a matrix, the questions will all have the same answer choices, answer_scale should either be a vector or a list with length one
   if (is.list(answer_scale) == TRUE & length(answer_scale) != 1) {
     stop("Answer Choices in a list should have length of 1.")
   }
+  #if answer_scale is a list, unlist answer_scale
   if (is.list(answer_scale) == TRUE) {
     answer_scale <- unlist(answer_scale)
   }
+  #paste the instructions and separate with a new line
   instructions <- paste0(instructions, collapse = "\n")
+  #paste [[Questions:Matrix]] above instructions with new lines separating them
   instructions <- paste0("[[Questions:Matrix]]", "\n", instructions, "\n")
+  #separate the questions with a new line
   questions <- paste0(questions, collapse = "\n")
+  #paste [[Choices]] above all of the questions 
   questions <- paste0("[[Choices]]", "\n", questions, "\n")
+  #paste [[Answer]] above each of the answer options
   options <- paste0("[[Answer]]", "\n", answer_scale)
+  #seperate each answer with a new line
   options <- paste0(options, collapse = "\n")
+  #paste [[AdvancedAnswers]] in front of the first [[Answers]]
   options <- paste0("[[AdvancedAnswers]]", "\n", options, "\n")
+  #paste instructions, questions, and options together
   question <- paste0(instructions, questions, options, collapse = "\n")
   return(question)
 }
@@ -152,17 +168,23 @@ make_qualtrics_MC_MultiSelect <- function(question, answers){
 #' y <- list(c("Describes me very well","Does not Describe me at all"), c("Agree","Disagree"),c("Very True","Somewhat True","Neither True nor False", "Somewhat False", "Very False"))
 #' make_qualtrics_dropdown(x,y)
 make_qualtrics_dropdown <- function(questions, answer_scale) {
+  #if answer scale is not a list, let user know it needs to be a list
   if (is.list(answer_scale) == FALSE) {
     stop("Error: answer_scale must be a list")
   }
+  #if the length of the list for answer scale does not equal to length of questions, let user know these values have to be equal
   if (length(answer_scale) != length(questions)) {
     stop("Error: length of answer_scale mush equal length of questions")
   }
+  #paste [[Question:MC:Dropdown]] above each question and separate with a new line
   questions <- paste0("[[Question:MC:Dropdown]]", "\n", questions, "\n")
+  #combine the values in each element of answer scales and separate them by a new line
   answer_scale <- lapply(answer_scale, function(answer_scale) {
     paste0(answer_scale, collapse = "\n")
   })
+  #add [[Choices]] above each element in the list of answer_scale
   answer_scale <- paste0("[[Choices]]", "\n", answer_scale, "\n")
+  #paste questions and answer scale together and separate by a new line
   questions <- paste0(questions, answer_scale, collapse = "\n")
   return(questions)
 }
