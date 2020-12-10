@@ -38,7 +38,7 @@ check_MC_arguments <- function(questions, answer_scale) {
 #' @examples
 #' x <- c("I feel calm", "I feel sad", "I feel mad", "I feel happy")
 #' y <- rep(list(c("Yes","No"),c("Strongly Agree","Agree","Neutral","Disagree","Strongly Disagree")),2)
-#' make_qualtrics_MC(x,y,.items_per_page = 3L)
+#' make_qualtrics_MC(x,y,.items_per_page = 1L)
 make_qualtrics_MC <- function(questions, answer_scale, .items_per_page = 1L) {
   check_MC_arguments(questions, answer_scale)
   #paste [[Question:MC]] above each question and separate with a new line
@@ -49,8 +49,7 @@ make_qualtrics_MC <- function(questions, answer_scale, .items_per_page = 1L) {
   })
   #add [[Choices]] above each element in the list of answer_scale
   answer_scale <- paste0("[[Choices]]", "\n", answer_scale, "\n")
-  ##add page break 
-  questions <- page_break(questions, .item_per_page)
+  
   #paste questions and answer scale together and separate by a new line
   questions <- paste0(questions, answer_scale, collapse = "\n")
   # page break 
@@ -138,7 +137,7 @@ make_qualtrics_matrix <- function(questions, answer_scale, instructions = "Pleas
 #' @examples
 #' x <- list("I like school", "Doing well in school is not important", "I don't need to do well in school to succeed in life")
 #' y <- list(c("Describes me very well","Does not Describe me at all"), c("Agree","Disagree"),c("Very True","Somewhat True","Neither True nor False", "Somewhat False", "Very False"))
-#' make_qualtrics_MC_MultiSelect(x,y,.item_per_page = 2L)
+#' make_qualtrics_MC_MultiSelect(x,y,.item_per_page = 1L)
 make_qualtrics_MC_MultiSelect <- function(question, answers, .items_per_page = 1L){
   check_MC_arguments(question, answers)
   question <- paste0("[[Question:MC:MultiSelect]]", "\n", question, "\n")
@@ -164,7 +163,7 @@ make_qualtrics_MC_MultiSelect <- function(question, answers, .items_per_page = 1
 #' @examples
 #' x <- list("I like school", "Doing well in school is not important", "I don't need to do well in school to succeed in life")
 #' y <- list(c("Describes me very well","Does not Describe me at all"), c("Agree","Disagree"),c("Very True","Somewhat True","Neither True nor False", "Somewhat False", "Very False"))
-#' make_qualtrics_dropdown(x,y,.items_per_page = 2L)
+#' make_qualtrics_dropdown(x,y,.items_per_page = 1L)
 make_qualtrics_dropdown <- function(questions, answer_scale, .items_per_page = 1L) {
   check_MC_arguments(questions, answer_scale)
   #paste [[Question:MC:Dropdown]] above each question and separate with a new line
