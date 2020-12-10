@@ -1,10 +1,11 @@
 #' Page Break helper function
 #'
-#' @param .x Not Required. Will be assigned within function
-#' @param .items_per_page Not required. Will default as 1 item per page but can 
-#' changed if specified 
+#' @param .x Required. Will be assigned within main function
+#' @param .items_per_page Required. Will default as 1 item per page but can 
+#' changed if specified. Must be longer than 0 but shorter than length of questions
 #'
-#' @return
+#' @return This function will add "[[pagebreak]]\n" to vector that is assigned 
+#' to .x at specified interval
 #' @export
 #'
 #' @examples
