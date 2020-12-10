@@ -51,7 +51,7 @@ make_qualtrics_MC <- function(questions, answer_scale, .items_per_page = 1L) {
   answer_scale <- paste0("[[Choices]]", "\n", answer_scale, "\n")
   
   #paste questions and answer scale together and separate by a new line
-  questions <- paste0(questions, answer_scale, collapse = "\n")
+  questions <- paste0(questions, answer_scale)
   # page break 
   questions <- page_break(questions, .items_per_page)
   quesions <- paste0(questions, collapse = "/n")
@@ -175,9 +175,10 @@ make_qualtrics_dropdown <- function(questions, answer_scale, .items_per_page = 1
   #add [[Choices]] above each element in the list of answer_scale
   answer_scale <- paste0("[[Choices]]", "\n", answer_scale, "\n")
   #paste questions and answer scale together and separate by a new line
-  questions <- paste0(questions, answer_scale, collapse = "\n")
+  questions <- paste0(questions, answer_scale)
   #pagebreak
   questions <- page_break(questions, .items_per_page)
+  questions <- paste0(questions, collapse = "\n")
   return(questions)
 }
 
