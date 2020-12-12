@@ -9,10 +9,10 @@
 #' @examples
 #' stem <- c("I am sad", "I am mad", "I am happy")
 #' options <- c("Yes", "No")
-#' check_MC_arguments(stem, options)
+#' check_mc_arguments(stem, options)
 #' question <- c("I am sad", "I am mad", "I am happy")
 #' options <- rep(list(c("Yes", "No")), 2)
-check_MC_arguments <- function(questions, answer_scale) {
+check_mc_arguments <- function(questions, answer_scale) {
   # checking to make sure that answer_scale is a list
   if (!is.list(answer_scale)) {
     stop("Error: answer_scale must be a list")
@@ -35,9 +35,9 @@ check_MC_arguments <- function(questions, answer_scale) {
 #' @examples
 #' x <- c("I feel calm", "I feel sad", "I feel mad", "I feel happy")
 #' y <- rep(list(c("Yes", "No"), c("Strongly Agree", "Agree", "Neutral", "Disagree", "Strongly Disagree")), 2)
-#' make_qualtrics_MC(x, y, .items_per_page = 3L)
-make_qualtrics_MC <- function(questions, answer_scale, .items_per_page = 1L) {
-  check_MC_arguments(questions, answer_scale)
+#' make_qualtrics_mc(x, y, .items_per_page = 3L)
+make_qualtrics_mc <- function(questions, answer_scale, .items_per_page = 1L) {
+  check_mc_arguments(questions, answer_scale)
   # paste [[Question:MC]] above each question and separate with a new line
   questions <- paste0("[[Question:MC]]", "\n", questions, "\n")
   # combine the values in each element of answer scales and separate them by a new line
@@ -50,13 +50,13 @@ make_qualtrics_MC <- function(questions, answer_scale, .items_per_page = 1L) {
   questions <- paste0(questions, "\n", answer_scale)
   # page break
   questions <- page_break(questions, .items_per_page)
-  quesions <- paste0(questions, collapse = "\n")
+  questions <- paste0(questions, collapse = "\n")
   return(questions)
 }
 #' Title Make a Matrix Question in Qualtrics.
 #'
-#' @param questions Required. The questions parameter is the stem, or the questions, that you would like to present in the matrix. This should be a vector, list, or column in a dataset that contains character strings.
-#' @param answer_scale Required. The answer_scale parameter is the options that you want to give your participants for each of the questions presented in the matrix. This should be a vector or a list of length one that contains all the answer choices you would like.
+#' @param questions Required. The questions parameter is the stem, or the questions, that you would like to present. This should be a vector, list, or column in a dataset that contains character strings.
+#' @param answer_scale Required. The answer_scale parameter is the options that you want to give your participants for each of the questions presented. This should be a vector or a list of length one that contains all the answer choices you would like.
 #' @param instructions Optional. The instructions parameter is the instructions for the participant that you would like displayed at the top of the matrix. The default is "Please answer each statement using the presented scale".
 #' @param .items_per_page Not required, will default to 1. Option allowing number of items to be shown per page. This should be a whole number.
 #' @return This function will return a vector that is in the required format to import the question as a matrix into qualtrics.
@@ -94,7 +94,7 @@ make_qualtrics_matrix <- function(questions, answer_scale, instructions = "Pleas
   question <- paste0(instructions, questions, options, collapse = "\n")
   return(question)
 }
-#' Title Multiple Choice with multiple answers
+#' Title Multiple Choice with Multiple Answers
 #'
 #' @inheritParams make_qualtrics_matrix
 #' @return This function will return a vector that is in the required format to import the question stems and options as a multiple choice questions that participants can select more than one option into qualtrics.
@@ -103,19 +103,19 @@ make_qualtrics_matrix <- function(questions, answer_scale, instructions = "Pleas
 #' @examples
 #' x <- list("I like school", "Doing well in school is not important", "I don't need to do well in school to succeed in life")
 #' y <- list(c("Describes me very well", "Does not Describe me at all"), c("Agree", "Disagree"), c("Very True", "Somewhat True", "Neither True nor False", "Somewhat False", "Very False"))
-#' make_qualtrics_MC_MultiSelect(x, y, .item_per_page = 2L)
-make_qualtrics_MC_MultiSelect <- function(question, answer_scale, .items_per_page = 1L) {
-  check_MC_arguments(question, answer_scale)
-  question <- paste0("[[Question:MC:MultiSelect]]", "\n", question, "\n")
+#' make_qualtrics_mc_multiSelect(x, y, .item_per_page = 2L)
+make_qualtrics_mc_multiSelect <- function(questions, answer_scale, .items_per_page = 1L) {
+  check_mc_arguments(questions, answer_scale)
+  questions <- paste0("[[Question:MC:MultiSelect]]", "\n", questions, "\n")
   answer_scale <- lapply(answer_scale, function(answers) {
     paste0(answers, collapse = "\n")
   })
   answer_scale <- paste0("[[Choices]]", "\n", answer_scale, "\n")
-  question <- paste0(question, "\n", answer_scale)
+  questions <- paste0(questions, "\n", answer_scale)
   # page break
-  question <- page_break(question, .items_per_page)
-  question <- paste0(question, collapse = "\n")
-  return(question)
+  questions <- page_break(questions, .items_per_page)
+  questions <- paste0(questions, collapse = "\n")
+  return(questions)
 }
 #' Title Make a Dropdown Question in Qualtrics.
 #'
@@ -126,9 +126,9 @@ make_qualtrics_MC_MultiSelect <- function(question, answer_scale, .items_per_pag
 #' @examples
 #' x <- list("I like school", "Doing well in school is not important", "I don't need to do well in school to succeed in life")
 #' y <- list(c("Describes me very well", "Does not Describe me at all"), c("Agree", "Disagree"), c("Very True", "Somewhat True", "Neither True nor False", "Somewhat False", "Very False"))
-#' make_qualtrics_dropdown(x, y, .items_per_page = 2L)
-make_qualtrics_dropdown <- function(questions, answer_scale, .items_per_page = 1L) {
-  check_MC_arguments(questions, answer_scale)
+#' make_qualtrics_mc_dropdown(x, y, .items_per_page = 2L)
+make_qualtrics_mc_dropdown <- function(questions, answer_scale, .items_per_page = 1L) {
+  check_mc_arguments(questions, answer_scale)
   # paste [[Question:MC:Dropdown]] above each question and separate with a new line
   questions <- paste0("[[Question:MC:Dropdown]]", "\n", questions, "\n")
   # combine the values in each element of answer scales and separate them by a new line
@@ -138,9 +138,10 @@ make_qualtrics_dropdown <- function(questions, answer_scale, .items_per_page = 1
   # add [[Choices]] above each element in the list of answer_scale
   answer_scale <- paste0("[[Choices]]", "\n", answer_scale, "\n")
   # paste questions and answer scale together and separate by a new line
-  questions <- paste0(questions, answer_scale, collapse = "\n")
-  # pagebreak
+  questions <- paste0(questions, "\n", answer_scale)
+  # page break
   questions <- page_break(questions, .items_per_page)
+  questions <- paste0(questions, collapse = "\n")
   return(questions)
 }
 #' Title Creating Qualtrics Blocks
@@ -157,7 +158,7 @@ make_qualtrics_dropdown <- function(questions, answer_scale, .items_per_page = 1
 #'   a <- c("I feel calm", "I feel happy", "I feel tired", "I feel sad")
 #'   b <- c("Strongly Disagree", "Disagree", "Neutral", "Agree", "Strongly Agree")
 #'   c <- "Please read each question and answer each statement honestly using the following scale."
-#'   qualtrics <- list(make_qualtrics_dropdown(x, y), make_qualtrics_matrix(a, b, c))
+#'   qualtrics <- list(make_qualtrics_mc_dropdown(x, y), make_qualtrics_matrix(a, b, c))
 #'   qualtrics <- make_blocks(qualtrics)
 #' }
 make_blocks <- function(blocks) {
@@ -194,7 +195,7 @@ make_blocks <- function(blocks) {
 #' a <- c("I feel calm", "I feel happy", "I feel tired", "I feel sad")
 #' b <- c("Strongly Disagree", "Disagree", "Neutral", "Agree", "Strongly Agree")
 #' c <- "Please read each question and answer each statement honestly using the following scale."
-#' qualtrics <- list(make_qualtrics_dropdown(x, y), make_qualtrics_matrix(a, b, c))
+#' qualtrics <- list(make_qualtrics_mc_dropdown(x, y), make_qualtrics_matrix(a, b, c))
 #' qualtrics <- make_blocks(qualtrics)
 #' output_file(qualtrics)
 output_file <- function(blocks, set_dir = getwd(), out_file = "qualtrics_import.txt") {
@@ -202,5 +203,5 @@ output_file <- function(blocks, set_dir = getwd(), out_file = "qualtrics_import.
   sink(out_file)
   cat(blocks)
   sink()
-  message(sprintf("Qualtrics Survey Import file was saved as qualtrics_import.txt to: %s", getwd()))
+  message(paste0("Qualtrics Survey Import file was saved as", out_file, "to", getwd()))
 }

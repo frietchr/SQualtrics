@@ -26,7 +26,7 @@ page_break <- function(.x, .items_per_page = 1L) {
       return(.x)
     } else {
       .x <- paste0(.x, "\n")
-      .x[.indx] <- paste0(.x[.indx], "[[pagebreak]]\n")
+      .x[.indx] <- paste0(.x[.indx], "[[PageBreak]]\n")
     }
   }
   return(.x)
