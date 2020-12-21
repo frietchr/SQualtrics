@@ -4,13 +4,15 @@
 #' @param .items_per_page Not required. Will default as 1 item per page but can 
 #' changed if specified 
 #'
-#' @return This is a helper function that will add "[[PageBreak]]" at a specified
+#' @return This is a helper function that will add \code{[[PageBreak]]} at a specified
 #' interval between items 
 #' @export
-#'@examples 
+#'@examples
+#'\donotrun{ 
 #' x <- list("I like school", "Doing well in school is not important", "I don't need to do well in school to succeed in life")
 #' y <- list(c("Describes me very well", "Does not Describe me at all"), c("Agree", "Disagree"), c("Very True", "Somewhat True", "Neither True nor False", "Somewhat False", "Very False"))
 #' make_qualtrics_mc_dropdown(x, y, .items_per_page = 3L)
+#' }
 page_break <- function(.x, .items_per_page = 1L) {
   if(!is.numeric(.items_per_page)) {
     stop("items per page must be a whole number")
