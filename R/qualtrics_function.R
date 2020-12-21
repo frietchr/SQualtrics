@@ -7,7 +7,7 @@
 #' @export
 #'
 #' @examples
-#' \donotrun{
+#' \dontrun{
 #' stem <- c("I am sad", "I am mad", "I am happy")
 #' options <- c("Yes", "No")
 #' check_mc_arguments(stem, options)
@@ -35,7 +35,7 @@ check_mc_arguments <- function(questions, answer_scale) {
 #' @export
 #'
 #' @examples
-#' \donotrun{
+#' \dontrun{
 #' x <- c("I feel calm", "I feel sad", "I feel mad", "I feel happy")
 #' y <- rep(list(c("Yes", "No"), c("Strongly Agree", "Agree", "Neutral", "Disagree", "Strongly Disagree")), 2)
 #' make_qualtrics_mc(x, y, .items_per_page = 3L)
@@ -67,7 +67,7 @@ make_qualtrics_mc <- function(questions, answer_scale, .items_per_page = 1L) {
 #' @export
 #'
 #' @examples
-#' \donotrun{ 
+#' \dontrun{ 
 #' a <- c("I feel calm", "I feel happy", "I feel tired", "I feel sad")
 #' b <- c("Strongly Disagree", "Disagree", "Neutral", "Agree", "Strongly Agree")
 #' c <- "Please read each question and answer each statement honestly using the following scale."
@@ -107,7 +107,7 @@ make_qualtrics_matrix <- function(questions, answer_scale, instructions = "Pleas
 #' @export
 #'
 #' @examples
-#' \donotrun{ 
+#' \dontrun{ 
 #' x <- list("I like school", "Doing well in school is not important", "I don't need to do well in school to succeed in life")
 #' y <- list(c("Describes me very well", "Does not Describe me at all"), c("Agree", "Disagree"), c("Very True", "Somewhat True", "Neither True nor False", "Somewhat False", "Very False"))
 #' make_qualtrics_mc_multiSelect(x, y, .item_per_page = 2L)
@@ -132,7 +132,7 @@ make_qualtrics_mc_multiSelect <- function(questions, answer_scale, .items_per_pa
 #' @export
 #'
 #' @examples
-#' \donotrun{ 
+#' \dontrun{ 
 #' x <- list("I like school", "Doing well in school is not important", "I don't need to do well in school to succeed in life")
 #' y <- list(c("Describes me very well", "Does not Describe me at all"), c("Agree", "Disagree"), c("Very True", "Somewhat True", "Neither True nor False", "Somewhat False", "Very False"))
 #' make_qualtrics_mc_dropdown(x, y, .items_per_page = 2L)
@@ -162,7 +162,7 @@ make_qualtrics_mc_dropdown <- function(questions, answer_scale, .items_per_page 
 #' @export
 #'
 #' @examples
-#' \donotrun{ 
+#' \dontrun{ 
 #'   x <- list("I like school", "Doing well in school is not important", "I don't need to do well in school to succeed in life")
 #'   y <- list(c("Describes me very well", "Does not Describe me at all"), c("Agree", "Disagree"), c("Very True", "Somewhat True", "Neither True nor False", "Somewhat False", "Very False"))
 #'   a <- c("I feel calm", "I feel happy", "I feel tired", "I feel sad")
@@ -200,7 +200,7 @@ make_blocks <- function(blocks) {
 #' @export
 #'
 #' @examples
-#' \donotrun{ 
+#' \dontrun{ 
 #' x <- list("I like school", "Doing well in school is not important", "I don't need to do well in school to succeed in life")
 #' y <- list(c("Describes me very well", "Does not Describe me at all"), c("Agree", "Disagree"), c("Very True", "Somewhat True", "Neither True nor False", "Somewhat False", "Very False"))
 #' a <- c("I feel calm", "I feel happy", "I feel tired", "I feel sad")

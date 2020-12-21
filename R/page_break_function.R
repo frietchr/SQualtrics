@@ -8,7 +8,7 @@
 #' interval between items 
 #' @export
 #'@examples
-#'\donotrun{ 
+#'\dontrun{ 
 #' x <- list("I like school", "Doing well in school is not important", "I don't need to do well in school to succeed in life")
 #' y <- list(c("Describes me very well", "Does not Describe me at all"), c("Agree", "Disagree"), c("Very True", "Somewhat True", "Neither True nor False", "Somewhat False", "Very False"))
 #' make_qualtrics_mc_dropdown(x, y, .items_per_page = 3L)
