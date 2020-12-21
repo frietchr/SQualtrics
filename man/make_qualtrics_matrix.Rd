@@ -27,7 +27,7 @@ This function will return a vector that is in the required format to import the 
 Title Make a Matrix Question in Qualtrics.
 }
 \examples{
-\donotrun{ 
+\dontrun{ 
 a <- c("I feel calm", "I feel happy", "I feel tired", "I feel sad")
 b <- c("Strongly Disagree", "Disagree", "Neutral", "Agree", "Strongly Agree")
 c <- "Please read each question and answer each statement honestly using the following scale."

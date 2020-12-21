@@ -18,7 +18,7 @@ The function will return any error messages relevant to making a multiple choice
 Title Check Qualtrics Multiple Choice Arguments.
 }
 \examples{
-\donotrun{
+\dontrun{
 stem <- c("I am sad", "I am mad", "I am happy")
 options <- c("Yes", "No")
 check_mc_arguments(stem, options)

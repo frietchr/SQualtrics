@@ -20,7 +20,7 @@ This function will return a vector that is in the required format to import the 
 Title Multiple Choice with Multiple Answers
 }
 \examples{
-\donotrun{ 
+\dontrun{ 
 x <- list("I like school", "Doing well in school is not important", "I don't need to do well in school to succeed in life")
 y <- list(c("Describes me very well", "Does not Describe me at all"), c("Agree", "Disagree"), c("Very True", "Somewhat True", "Neither True nor False", "Somewhat False", "Very False"))
 make_qualtrics_mc_multiSelect(x, y, .item_per_page = 2L)

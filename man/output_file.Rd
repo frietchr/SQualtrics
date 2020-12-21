@@ -18,7 +18,7 @@ output_file will save blocks to a .txt file in a set directory so that user can 
 Title Outputting Qualtrics Survey to txt File
 }
 \examples{
-\donotrun{ 
+\dontrun{ 
 x <- list("I like school", "Doing well in school is not important", "I don't need to do well in school to succeed in life")
 y <- list(c("Describes me very well", "Does not Describe me at all"), c("Agree", "Disagree"), c("Very True", "Somewhat True", "Neither True nor False", "Somewhat False", "Very False"))
 a <- c("I feel calm", "I feel happy", "I feel tired", "I feel sad")

@@ -20,7 +20,7 @@ This function will return a vector that is in the required format to import the 
 Title Make a Multiple Choice (including Likert Scale) in Qualtrics
 }
 \examples{
-\donotrun{
+\dontrun{
 x <- c("I feel calm", "I feel sad", "I feel mad", "I feel happy")
 y <- rep(list(c("Yes", "No"), c("Strongly Agree", "Agree", "Neutral", "Disagree", "Strongly Disagree")), 2)
 make_qualtrics_mc(x, y, .items_per_page = 3L)
