@@ -1,20 +1,21 @@
 Package: SQualtrics
 Title: Automate Qualtrics Question Imports using R
 Version: 0.0.0.9000
+Maintainer: Shea Fyffe <sfyffe@masonlive.gmu.edu>
 Authors@R: 
     c(
     person(given = "Rachel",
            family = "Frietchen",
            email = "rfrietch@masonlive.gmu.edu",
-           role = c("aut", "cre")),
+           role = c("aut"),
     person(given = "Oscar",
            family = "Medrano",
            email = "omedrano@masonlive.gmu.edu",
-           role = c("aut", "cre")),
+           role = c("aut"),
     person(given = "Janelle",
            family = "Miranda",
            email = "jmirand6@masonlive.gmu.edu",
-           role = c("aut", "cre"))
+           role = c("aut"))
            )
 Description: This R package provides a series of useful functions, which allows for a streamlined way to import
     items into Qualtric's survey tool (via the import text file functionality).
