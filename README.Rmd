@@ -24,7 +24,7 @@ You can install SQaultrics from [GitHub](https://github.com/) with:
 ```{r installation, eval = FALSE}
 # install.packages("devtools")
 devtools::install_github(
-  "frietchr/SQaultrics"
+  "frietchr/SQualtrics"
 )
 ```
 
